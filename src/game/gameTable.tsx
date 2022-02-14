@@ -1,40 +1,9 @@
 import React from 'react';
-import {
-  makeStyles,
-} from '@mui/styles';
-import {
-  Result,
-} from 'antd';
-import {
-  SmileOutlined,
-} from '@ant-design/icons';
-import {
-  GameClient,
-} from '../common/gameClient';
-import {
-  Button,
-} from '@mui/material';
-
-const useStyles = makeStyles({
-  cell: {
-    width: 30,
-    height: 30,
-    borderColor: 'blue',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: '0px !important',
-  },
-  text: {
-    fontWeight: 'bold',
-    margin: 0,
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+import {Result} from 'antd';
+import {SmileOutlined} from '@ant-design/icons';
+import {GameClient} from '../common/gameClient';
+import {Button} from '@mui/material';
+import {useGameTableStyles} from './gameTableStyles';
 
 interface Props {
     gameMap: string[]
@@ -43,7 +12,7 @@ interface Props {
 export function GameTable({
   gameMap,
 }: Props) {
-  const classes = useStyles();
+  const classes = useGameTableStyles();
 
   const onCellClick = (y: number, x: number) => {
     GameClient.socket.send(`open ${x} ${y}`);
@@ -53,7 +22,8 @@ export function GameTable({
     return items.map((item: any, rowIndex: number) => {
       const squares = item.split('');
       const row = squares.map((square: any, columnIndex: number) => {
-        const key = `square-${rowIndex}}-${columnIndex}`;
+        const key = `square-${rowIndex}-${columnIndex}`;
+        const testId = `square-${rowIndex}-${columnIndex}`;
         if (square !== '□') {
           return (
             <Button
@@ -62,6 +32,7 @@ export function GameTable({
               onClick={() => onCellClick(rowIndex, columnIndex)}
               key={key}
               className={classes.cell}
+              data-testid={testId}
             >
               <p className={classes.text}>{square}</p>
             </Button>
@@ -74,6 +45,7 @@ export function GameTable({
             onClick={() => onCellClick(rowIndex, columnIndex)}
             key={key}
             className={classes.cell}
+            data-testid={testId}
           />
         );
       });
@@ -97,6 +69,6 @@ export function GameTable({
   }
 
   return (
-    <div>{renderMap(gameMap)}</div>
+    <>{renderMap(gameMap)}</>
   );
 }

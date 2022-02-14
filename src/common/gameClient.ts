@@ -1,13 +1,14 @@
-const SOCKET_ENDPOINT = 'wss://hometask.eg1236.com/game1/';
+export const SOCKET_ENDPOINT = 'wss://hometask.eg1236.com/game1/';
 
+type Socket = WebSocket
 class GameClient {
-  private static _socket: any = null;
+  private static _socket: Socket;
 
   public static get socket() {
     return this._socket;
   }
 
-  public static set socket(socketConnection) {
+  public static set socket(socketConnection: Socket) {
     this._socket = socketConnection;
   }
 
@@ -21,6 +22,4 @@ class GameClient {
   }
 }
 
-export {
-  GameClient,
-};
+export {GameClient};

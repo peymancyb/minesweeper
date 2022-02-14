@@ -21,7 +21,7 @@ module.exports = {
   ],
   'rules': {
     'max-len': ['error', {
-      'code': 100,
+      'code': 200,
     }],
     'quotes': ['error', 'single'],
     'require-jsdoc': 'off',
@@ -29,8 +29,14 @@ module.exports = {
     'object-curly-newline': ['error', {
       'ObjectExpression': 'always',
       'ObjectPattern': 'always',
-      'ImportDeclaration': 'always',
-      'ExportDeclaration': 'always',
+      'ImportDeclaration': {
+        'multiline': true,
+        'minProperties': 3,
+      },
+      'ExportDeclaration': {
+        'multiline': true,
+        'minProperties': 3,
+      },
     }],
     'object-property-newline': 'error',
   },

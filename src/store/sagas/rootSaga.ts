@@ -1,6 +1,4 @@
-import {
-  takeLatest,
-} from 'redux-saga/effects';
+import {takeLatest} from 'redux-saga/effects';
 import {
   watchOnGame,
   handleCreateGame,

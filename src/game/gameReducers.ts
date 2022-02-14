@@ -1,6 +1,4 @@
-import {
-  createSlice,
-} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 function convertMapPayload(payload: any): string[] {
   const rowList= payload.split('map:')[1].split('\n');

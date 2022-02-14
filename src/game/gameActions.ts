@@ -1,15 +1,9 @@
 import {
-  take, put, call, apply, delay, fork,
+  take, put, call, apply, fork,
 } from 'redux-saga/effects';
-import {
-  eventChannel,
-} from 'redux-saga';
-import {
-  GameClient,
-} from '../common/gameClient';
-import {
-  setMap, updateMessage,
-} from './gameReducers';
+import {eventChannel} from 'redux-saga';
+import {GameClient} from '../common/gameClient';
+import {setMap, updateMessage} from './gameReducers';
 
 function createSocketChannel(socket: any) {
   return eventChannel((emit) => {

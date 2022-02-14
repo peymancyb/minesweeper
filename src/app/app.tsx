@@ -2,114 +2,35 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import './App.css';
 import CssBaseline from '@mui/material/CssBaseline';
-import {
-  createTheme,
-  ThemeProvider,
-  styled,
-} from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+import {ThemeProvider} from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import {
-  makeStyles,
-} from '@mui/styles';
 import {
   useDispatch,
   useSelector,
 } from 'react-redux';
 import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
+import {
   createGame,
   initialiazeGame,
-} from './game/gameReducers';
+} from '../game/gameReducers';
+import {RootState} from '../store/store';
+import {GameTable} from '../game/gameTable';
 import {
-  RootState,
-} from './store/store';
-import {
-  GameTable,
-} from './game/gameTable';
-import {
-  FormControl, InputLabel, MenuItem, Select, SelectChangeEvent,
-} from '@mui/material';
-
-const useStyles = makeStyles({
-  headText: {
-    fontWeight: 'bold',
-    fontSize: 32,
-  },
-  layout: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    overflow: 'hidden',
-    background: 'white',
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    width: '80%',
-    height: '90%',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: 'transparent',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  header: {
-    flex: 2,
-  },
-  content: {
-    flex: 5,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'scroll',
-    margin: 30,
-  },
-  footer: {
-    flex: 3,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
-  startButton: {
-    minWidth: '150px !important',
-  },
-  levelSelector: {
-    maxWidth: '150px !important',
-    marginBottom: '15px !important',
-  },
-  message: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'red',
-  },
-});
-
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
-
-const Item = styled(Paper)(({
-  theme,
-}) => ({
-  ...theme.typography.body2,
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
+  useAppStyles,
+  Item,
+  lightTheme,
+} from './appStyles';
 
 function App() {
   const dispatch = useDispatch();
-  const classes = useStyles();
+  const classes = useAppStyles();
   const [level, setLevel] = useState(1);
   const gameState = useSelector((state: RootState) => state.game);
 
@@ -138,9 +59,11 @@ function App() {
           <Item elevation={2} className={classes.container}>
             <div className={classes.header}>
               <p className={classes.headText}>Minesweeper</p>
-              <p className={classes.message}>{renderMessage(gameState.message)}</p>
+              <p className={classes.message}>
+                {renderMessage(gameState.message)}
+              </p>
             </div>
-            <div className={classes.content}>
+            <div className={gameState.map.length <= 10 ? `${classes.content} ${classes.smallContent}` : classes.content}>
               <GameTable gameMap={gameState.map}/>
             </div>
             <div className={classes.footer}>
@@ -164,6 +87,7 @@ function App() {
                 variant="contained"
                 color="success"
                 className={classes.startButton}
+                data-testid="start-game-btn"
               >
                 {gameState.map.length ? 'Play again' : 'Start'}
               </Button>
